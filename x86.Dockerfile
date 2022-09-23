@@ -58,6 +58,7 @@ RUN wget --no-check-certificate --quiet \
 
 RUN git clone https://github.com/madler/zlib.git && \
     cd zlib && \
+    git checkout tags/v1.2.12 && \
     ./configure --prefix=/home/zlib_pkg && \
     make install -j 24
 
@@ -71,12 +72,14 @@ RUN git clone https://github.com/tcltk/tcl.git  && \
 
 RUN git clone https://github.com/sqlite/sqlite.git && \
     cd sqlite && \
+    git checkout tags/version-3.39.3 && \
     ./configure --prefix /home/sqlite_pkg && \
     make -j 24 && \
     make install -j 24
 
 RUN git clone https://github.com/facebook/zstd.git && \
     cd zstd/build/cmake && \
+    git checkout tags/v1.4.10 && \
     mkdir build && \
     cd build && \
     cmake -DCMAKE_INSTALL_PREFIX="/home/zstd_pkg" .. && \
@@ -85,6 +88,7 @@ RUN git clone https://github.com/facebook/zstd.git && \
 
 RUN git clone https://github.com/yixuan/spectra/ && \
     cd spectra && \
+    git checkout tags/v1.0.1 && \
     mkdir build && \
     cd build && \
     cmake -DCMAKE_INSTALL_PREFIX="home/spectra_pkg" ..
@@ -97,11 +101,6 @@ RUN wget --no-check-certificate --quiet \
     make -j 24 && \
     make install -j 24
 
-# RUN git clone https://github.com/xianyi/OpenBLAS.git && \
-#     cd OpenBLAS && \
-#     make -j 24 && \
-#     make install PREFIX=/home/openblas_pkg -j 24
-
 RUN  wget --no-check-certificate --quiet \
         https://registrationcenter-download.intel.com/akdlm/irc_nas/18483/l_onemkl_p_2022.0.2.136_offline.sh && \
     chmod +x l_onemkl_p_2022.0.2.136_offline.sh && \
@@ -111,6 +110,7 @@ COPY static_build_cmake.patch /home/
 
 RUN git clone https://github.com/jianyangqt/gcta.git && \
     cd gcta && \
+    git checkout tags/v1.94.1 && \
     git submodule update --init && \
     patch CMakeLists.txt /home/static_build_cmake.patch && \
     mkdir build && \
