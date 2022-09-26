@@ -27,6 +27,7 @@ ENV LIBRARY_PATH="${LIBRARY_PATH}:/home/sqlite_pkg/lib"
 ENV EIGEN3_INCLUDE_DIR="/home/eigen_pkg/include/eigen3"
 ENV SPECTRA_LIB="/home/spectra/include"
 ENV BOOST_LIB="/home/boost_pkg/include"
+ENV MKLROOT="/home/mkl_pkg/mkl/latest"
 ENV OPENBLAS="/home/openblas_pkg"
 
 RUN apt-get update && apt-get -y --no-install-recommends install \
