@@ -103,41 +103,20 @@ RUN wget --no-check-certificate --quiet \
     make -j ${MAKE_JOBS} && \
     make install -j ${MAKE_JOBS}
 
-# RUN git clone https://github.com/xianyi/OpenBLAS.git && \
-#     cd OpenBLAS && \
-#     git checkout tags/v0.3.15 && \
-#     make -j 24 && \
-#     make install PREFIX=/home/openblas_pkg -j 24
+ARG CPU_ARCH=NEOVERSEN1
 
-# # COPY static_build_cmake.patch /home/
+RUN cd /home/OpenBLAS  && \
+    git checkout tags/v0.3.20 && \
+    make -j ${MAKE_JOBS} TARGET=${CPU_ARCH} && \
+    make install PREFIX=/home/openblas_pkg -j ${MAKE_JOBS}
 
-# RUN git clone https://github.com/jianyangqt/gcta.git && \
-#     cd gcta && \
-#     git checkout tags/v1.94.1 && \
-#     git submodule update --init && \
-#     # patch CMakeLists.txt /home/static_build_cmake.patch && \
-#     mkdir build && \
-#     cd build && \
-#     cmake .. && \
-#     make -j 24
-
+COPY static_build_cmake.patch /home/
 
 RUN git clone https://github.com/jianyangqt/gcta.git && \
     cd gcta && \
     git checkout tags/v1.94.1 && \
     git submodule update --init && \
     mkdir build && \
-    cd /home && \
-    git clone https://github.com/xianyi/OpenBLAS.git
-
-ENV OPENBLAS="/home/openblas_pkg"
-
-ARG CPU_ARCH=NEOVERSEN1
-
-RUN cd /home/OpenBLAS  && \
-    git checkout tags/v0.3.20 && \
-    make -j ${MAKE_JOBS} TARGET=${CPU_ARCH} && \
-    make install PREFIX=/home/openblas_pkg -j ${MAKE_JOBS} && \
-    cd /home/gcta/build && \
+    cd build && \
     cmake .. && \
     make -j ${MAKE_JOBS}

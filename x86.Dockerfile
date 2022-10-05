@@ -1,8 +1,7 @@
 FROM ubuntu:22.10
-MAINTAINER Kirill Milash <kirilledition@protonmail.com>
+LABEL maintainer="Kirill Milash <kirilledition@protonmail.com>"
 
 WORKDIR "/home"
-
 SHELL ["/bin/bash", "-c"]
 
 ENV PATH="${PATH}:/home/tcl_pkg/bin"
@@ -41,42 +40,44 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 
 RUN git config --global http.sslverify false
 
+ARG MAKE_JOBS=4
+
 RUN git clone https://gitlab.com/libeigen/eigen.git && \
     cd eigen && \
     git checkout tags/3.3.7 && \
     mkdir build && \
     cd build && \
     cmake -DCMAKE_INSTALL_PREFIX=/home/eigen_pkg .. && \
-    make -j 24 && \
-    make install -j 24
+    make -j ${MAKE_JOBS} && \
+    make install -j ${MAKE_JOBS}
 
 RUN wget --no-check-certificate --quiet \
         https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.gz && \
     tar xzf ./boost_1_80_0.tar.gz && \
     cd ./boost_1_80_0 && \
     ./bootstrap.sh --prefix=/home/boost_pkg && \
-    ./b2 install -j 24
+    ./b2 install -j ${MAKE_JOBS}
 
 RUN git clone https://github.com/madler/zlib.git && \
     cd zlib && \
     git checkout tags/v1.2.12 && \
     ./configure --prefix=/home/zlib_pkg && \
-    make install -j 24
+    make install -j ${MAKE_JOBS}
 
 RUN git clone https://github.com/tcltk/tcl.git  && \
     cd tcl/unix && \
     git checkout tags/core-8-6-12 && \
     ./configure --prefix=/home/tcl_pkg && \
-    make -j 24 && \
-    make install -j 24 && \
+    make -j ${MAKE_JOBS} && \
+    make install -j ${MAKE_JOBS} && \
     ln -s /home/tcl_pkg/bin/tclsh9.0 /home/tcl_pkg/bin/tclsh
 
 RUN git clone https://github.com/sqlite/sqlite.git && \
     cd sqlite && \
     git checkout tags/version-3.39.3 && \
     ./configure --prefix /home/sqlite_pkg && \
-    make -j 24 && \
-    make install -j 24
+    make -j ${MAKE_JOBS} && \
+    make install -j ${MAKE_JOBS}
 
 RUN git clone https://github.com/facebook/zstd.git && \
     cd zstd/build/cmake && \
@@ -84,8 +85,8 @@ RUN git clone https://github.com/facebook/zstd.git && \
     mkdir build && \
     cd build && \
     cmake -DCMAKE_INSTALL_PREFIX="/home/zstd_pkg" .. && \
-    make -j 24 && \
-    make install -j 24
+    make -j ${MAKE_JOBS} && \
+    make install -j ${MAKE_JOBS}
 
 RUN git clone https://github.com/yixuan/spectra/ && \
     cd spectra && \
@@ -99,8 +100,8 @@ RUN wget --no-check-certificate --quiet \
     tar xzf gsl-latest.tar.gz && \
     cd gsl-2.7.1 && \
     ./configure --prefix=/home/gsl_pkg && \
-    make -j 24 && \
-    make install -j 24
+    make -j ${MAKE_JOBS} && \
+    make install -j ${MAKE_JOBS}
 
 RUN  wget --no-check-certificate --quiet \
         https://registrationcenter-download.intel.com/akdlm/irc_nas/18483/l_onemkl_p_2022.0.2.136_offline.sh && \
@@ -117,4 +118,4 @@ RUN git clone https://github.com/jianyangqt/gcta.git && \
     mkdir build && \
     cd build && \
     cmake .. && \
-    make -j 24
+    make -j ${MAKE_JOBS}
