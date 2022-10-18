@@ -112,7 +112,7 @@ COPY static_build_cmake.patch /home/
 
 RUN git clone https://github.com/jianyangqt/gcta.git && \
     cd gcta && \
-    git checkout tags/v1.94.1 && \
+    git checkout ed0536a && \
     git submodule update --init && \
     patch CMakeLists.txt /home/static_build_cmake.patch && \
     mkdir build && \
