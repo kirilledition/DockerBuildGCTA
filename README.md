@@ -7,3 +7,5 @@ Container resulting from this image contains binary executable, so you need to c
 Patch file changes building instructions for gcta, to create static binary, so you do not need to have any libraries in your machine.
 
 `docker build` accepts build argument MAKE_JOBS that is provided for all make commands. Building for arm features CPU_ARCH build argument for OpenBLAS compilation.
+
+Unfortunately, build for ARM does not work for now.
