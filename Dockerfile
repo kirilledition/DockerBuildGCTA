@@ -51,7 +51,6 @@ RUN git clone https://github.com/jianyangqt/gcta.git && \
     cd gcta && \
     git checkout f22c624 && \
     git submodule update --init && \
-    cd gcta && \
     mkdir build && \
     cd build && \
     cmake .. && \
