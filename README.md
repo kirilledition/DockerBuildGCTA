@@ -6,5 +6,5 @@ Repository contains dockerfile that installs dependencies and builds gcta from s
 
 ## Command to build image
 ```
-docker build -f apt_dependencies.Dockerfile -t kirill/gcta -t kirill/gcta:1.94.1-f22c624 .
+docker build -t kirill/gcta -t kirill/gcta:1.94.1-f22c624 .
 ```
