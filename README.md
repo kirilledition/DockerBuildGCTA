@@ -1,11 +1,10 @@
-# Build GCTA static binary using docker
+# GCTA in docker
 
 [GCTA](https://github.com/jianyangqt/gcta) (Genome-wide Complex Trait Analysis) is a software package, which is used for genome-wide association studies (GWASs).
 
-Repository contains dockerfile that builds gcta binary and all dependencies.
-Container resulting from this image contains binary executable, so you need to copy it to your local machine.
-Patch file changes building instructions for gcta, to create static binary, so you do not need to have any libraries in your machine.
+Repository contains dockerfile that installs dependencies and builds gcta from source. I include git hash to docker tag, because developers does not assign new version number to recent changes in source code. 
 
-`docker build` accepts build argument MAKE_JOBS that is provided for all make commands. Building for arm features CPU_ARCH build argument for OpenBLAS compilation.
-
-Unfortunately, build for ARM does not work for now.
+## Command to build image
+```
+docker build -f apt_dependencies.Dockerfile -t kirill/gcta -t kirill/gcta:1.94.1-f22c624 .
+```
